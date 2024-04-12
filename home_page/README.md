@@ -18,9 +18,20 @@ Dirigete al url  y sigue los pasos para realizar la clonacion https://docs.githu
 
 2. Instala node.js
 Ingresando a la pagina https://nodejs.org/en/download
-Instala la version 20.11.1
 
-Instala la version 20.11.1 en caso de tener de ya contar con otra version
+Instala la version 20.11.1 
+
+En caso de ya tener node revisar desde la terminar la version que se tiene
+
+ ```
+sh node --v 
+ ```
+
+Para poder cambiar de version instalar nvm siguiendo los pasos del url
+
+https://medium.com/@diego.coder/instalar-nvm-node-version-manager-en-windows-80d6768fa183
+
+Una vez instalado poner lo siguiente en la terminal
  ```
 sh nvm use [version] 
  ```
@@ -60,7 +71,6 @@ Ejecuta el proyecto.
  sh npm run dev
 ```
 
-5. Abre tu navegador y ve a http://localhost:3000 para ver la aplicación en funcionamiento.
 5. Abre tu navegador y ve a
 ```
 sh http://localhost:3000
