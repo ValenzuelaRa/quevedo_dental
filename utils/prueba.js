@@ -254,8 +254,8 @@ conexion.query('INSERT INTO Enfermedades SET ?', datosEnfermedades, (error, resu
 // --------------------------------------------------------------------------------------------
   // Inserta datos de ejemplo en la tabla 'Usuarios'
   const datosUsuarios = {
-    Email: 'juan@example.com', 
-    Password: 'juan123', 
+    Email: 'andres@gmail.com', 
+    Password: 'andres123', 
     IsAdministrator: false, 
     IsDoctor: true, 
     IsEmployee: false
