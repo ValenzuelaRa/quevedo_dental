@@ -14,7 +14,7 @@ CREATE TABLE `antecedentesnopatologicos` (
 -- CreateTable
 CREATE TABLE `antecedentespatologicos` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `PatientId` INTEGER NULL,
+    `PatientId` INTEGER ,
     `Disease` VARCHAR(255) NOT NULL,
     `DiagnosisDate` DATE NOT NULL,
     `DiseaseType` ENUM('Cardiovasculares', 'Hematológicas', 'Neurológicas', 'Pulmonares', 'Endocrinas', 'Metabólicas', 'Renales', 'Mentales', 'Gastrointestinales', 'Dermatológicas', 'Cáncer', 'Otros', 'ENFERMEDADES DE LA INFANCIA') NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE `antecedentespatologicos` (
     `Treatment` VARCHAR(255) NULL,
     `Observations` VARCHAR(255) NULL,
 
-    INDEX `paciente_id`(`PatientId`),
+    INDEX `PatientId`(`PatientId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -48,7 +48,8 @@ CREATE TABLE `clientes` (
     `Age` INTEGER NOT NULL,
     `BirthDate` DATE NULL,
     `Address` VARCHAR(255) NULL,
-    `Phone` VARCHAR(20) NULL,
+    `MedicalLicense` VARCHAR(20) NULL,
+    `Cellphone` VARCHAR(20) NULL,
     `CURP` VARCHAR(18) NOT NULL,
     `Email` VARCHAR(100) NULL,
     `BloodType` VARCHAR(3) NOT NULL,
@@ -63,18 +64,17 @@ CREATE TABLE `doctor` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `Name` VARCHAR(50) NOT NULL,
     `LastName` VARCHAR(50) NOT NULL,
-    `Age` INTEGER NULL,
     `BirthDate` DATE NULL,
     `Gender` ENUM('Masculino', 'Femenino', 'Otro') NULL,
     `Specialty` VARCHAR(100) NULL,
     `Address` VARCHAR(255) NULL,
-    `Phone` VARCHAR(20) NULL,
+    `Salary` DECIMAL(10, 2),
     `Cellphone` VARCHAR(20) NULL,
     `CURP` VARCHAR(18) NULL,
     `LicenseNumber` VARCHAR(12) NULL,
-    `Sex` VARCHAR(10) NULL,
     `MedicalLicense` VARCHAR(100) NULL,
     `Email` VARCHAR(150) NULL,
+    `DateOfHire` DATE
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -135,14 +135,15 @@ CREATE TABLE `historialclinico` (
     `ConsultationDate` DATE NULL,
     `ClinicalData` JSON NULL,
 
-    INDEX `cliente_id`(`ClientId`),
-    INDEX `dentista_id`(`DentistId`),
+    INDEX `ClientId`(`ClientId`),
+    INDEX `DentistId`(`DentistId`),
     PRIMARY KEY (`HistoryId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `permisos` (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
+    `Permission` ENUM('0000','0001','0010','0011')
     `Description` VARCHAR(255) NOT NULL,
 
     PRIMARY KEY (`ID`)
