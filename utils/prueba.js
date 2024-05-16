@@ -252,8 +252,8 @@ conexion.connect((error) => {
   // --------------------------------------------------------------------------------------------
   // Inserta datos de ejemplo en la tabla 'Usuarios'
   const datosusuarios = {
-    Email: 'andy@gmail.com', 
-    Password: 'andy123', 
+    Email: 'daniel@gmail.com', 
+    Password: 'daniel123', 
     IsAdministrator: true, 
     IsDoctor: false, 
     IsEmployee: false
