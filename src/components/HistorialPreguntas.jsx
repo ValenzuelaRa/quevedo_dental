@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import jsPDF from 'jspdf';
 import Image from 'next/image';
 
 function HistorialClinicoForm() {
@@ -58,7 +59,7 @@ function HistorialClinicoForm() {
   ];
   const handleSubmit = (event) => {
     event.preventDefault();
-
+  
     // Verificar si todos los campos obligatorios están llenos
     if (
       nombre.trim() !== '' &&
@@ -77,30 +78,17 @@ function HistorialClinicoForm() {
       coloracionPaladar.trim() !== '' &&
       ulceracionesPaladar.trim() !== '' 
     ) {
-      console.log({
-        nombre,
-        sexo,
-        domicilio,
-        telefono,
-        ocupacionSeleccionada,
-        fechaNacimiento,
-        ciudad,
-        escolaridad,
-        motivoConsulta,
-        enfermedadesSeleccionadas,
-        coloracionEncias,
-        coloracionLenguaSelected,
-        ulceracionesLengua,
-        observacionesLengua,
-        coloracionPaladar,
-        ulceracionesPaladar,
-        observacionesPaladar,
-        dientesSeleccionados
-      });
+      // Llama a la función generarPDF para crear el PDF
+      generarPDF();
+  
+      // También podrías enviar los datos del formulario a un servidor aquí
+  
+      // Puedes mostrar un mensaje de éxito o redirigir a otra página
+      alert("Formulario enviado correctamente.");
     } else {
       alert("Por favor complete todos los campos obligatorios.");
     }
-  };
+  };  
 
   const handleOcupacionChange = (e) => {
     setOcupacionSeleccionada(e.target.value);
@@ -124,14 +112,19 @@ function HistorialClinicoForm() {
     }
 };
 
-const renderEnfermedadesButtons = () => {
-    return enfermedadesList.map(enfermedad => (
-        <button
-            key={enfermedad.name}
-            className={`px-4 py-2 rounded-md mb-2 mr-2 hover:bg-blue-700 ${enfermedadesSeleccionadas.includes(enfermedad.name) ? 'bg-blue-500 text-white' : 'bg-gray-300 text-black'}`}>
-            {enfermedad.label}
-        </button>
-    ));
+const renderEnfermedadesCheckboxes = () => {
+  return enfermedadesList.map(enfermedad => (
+    <div key={enfermedad.name} className="mb-2">
+      <input
+        type="checkbox"
+        id={enfermedad.name}
+        checked={enfermedadesSeleccionadas.includes(enfermedad.name)}
+        onChange={() => handleEnfermedadClick(enfermedad.name)}
+        className="mr-2"
+      />
+      <label htmlFor={enfermedad.name}>{enfermedad.label}</label>
+    </div>
+  ));
 };
 
   
@@ -251,7 +244,74 @@ const renderColoracionLenguaOptions = () => {
   ));
 };
 const toggleUlceraciones = () => {
-  setUlceraciones(!ulceraciones); // Cambia el estado de ulceraciones al valor opuesto
+  setUlceraciones(!ulceraciones);
+};
+
+const generarPDF = () => {
+  const pdf = new jsPDF();
+
+  // Define la posición inicial para escribir en el PDF
+  let posY = 10;
+
+  // Agrega el título del historial clínico
+  pdf.setFontSize(16);
+  pdf.text('Historial Clínico', 10, posY);
+  posY += 10; // Incrementa la posición Y
+
+  // Agrega los datos personales
+  pdf.setFontSize(12);
+  pdf.text(`Nombre: ${nombre}`, 10, posY);
+  posY += 10;
+  pdf.text(`Sexo: ${sexo}`, 10, posY);
+  posY += 10;
+  pdf.text(`Domicilio: ${domicilio}`, 10, posY);
+  posY += 10;
+  pdf.text(`Teléfono: ${telefono}`, 10, posY);
+  posY += 10;
+  pdf.text(`Ocupación: ${ocupacionSeleccionada}`, 10, posY);
+  posY += 10;
+  pdf.text(`Fecha de Nacimiento: ${fechaNacimiento}`, 10, posY);
+  posY += 10;
+  pdf.text(`Ciudad: ${ciudad}`, 10, posY);
+  posY += 10;
+  pdf.text(`Escolaridad: ${escolaridad}`, 10, posY);
+  posY += 10;
+
+  // Agrega el motivo de consulta
+  pdf.text('Motivo de consulta:', 10, posY);
+  posY += 10;
+  pdf.text(`${motivoConsulta}`, 10, posY);
+  posY += 20; // Incrementa la posición Y
+
+  // Agrega las enfermedades seleccionadas
+  pdf.text('Enfermedades:', 10, posY);
+  posY += 10;
+  enfermedadesSeleccionadas.forEach((enfermedad, index) => {
+    pdf.text(`${index + 1}. ${enfermedad}`, 10, posY);
+    posY += 10;
+  });
+  posY += 10; // Incrementa la posición Y
+
+  // Agrega la información bucal
+  pdf.text('Información Bucal:', 10, posY);
+  posY += 10;
+  pdf.text(`Coloración de Encías: ${coloracionEncias}`, 10, posY);
+  posY += 10;
+  pdf.text(`Coloración de Lengua: ${coloracionLenguaSelected}`, 10, posY);
+  posY += 10;
+  pdf.text(`Ulceraciones en Lengua: ${ulceracionesLengua}`, 10, posY);
+  posY += 10;
+  pdf.text(`Observaciones sobre Lengua: ${observacionesLengua}`, 10, posY);
+  posY += 10;
+  pdf.text(`Coloración de Paladar Duro: ${coloracionPaladar}`, 10, posY);
+  posY += 10;
+  pdf.text(`Lesiones o Anomalías en Paladar Duro: ${ulceracionesPaladar}`, 10, posY);
+  posY += 10;
+  pdf.text(`Observaciones sobre Paladar Duro: ${observacionesPaladar}`, 10, posY);
+  posY += 10;
+
+  // Guarda el PDF
+  pdf.save('historial_clinico.pdf');
 };
 
 
@@ -326,8 +386,9 @@ const toggleUlceraciones = () => {
         <fieldset>
           <legend className="text-lg text-gray-700 bg-transparent text-gray-700  border border-gray-700 hover:bg-gray-100 hover:text-gray-900 font-semibold py-2 px-4 rounded inline-flex items-center">Enfermedades</legend>
           <div className="enfermedades-container">
-            {renderEnfermedadesButtons()}
-          </div>
+  {renderEnfermedadesCheckboxes()}
+</div>
+
         </fieldset>
               
               <button type="button" onClick={nextPage}>Siguiente</button>
