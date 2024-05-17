@@ -30,12 +30,16 @@ npm install
 
 3. Crea un archivo .env
 ```
-cp .env.example .env
+.env
 ```
 
 4. Edita el archivo ´.env´ con los detalles de la base de datos especificando el puerto el cual serera el 3306. 
 ```
-DATABASE_URL="mysql://usuario:contraseña@localhost:3306/nombre_basedatos?schema=public"
+DATABASE_URL="mysql://root:contraseña@localhost:3306/proyecto_salud?schema=public"
+
+NEXTAUTH_URL="http://localhost:3000/"
+
+NEXTAUTH_SECRET=TuPalabraSecreta
 ```
 
 ## Ejecucion de Migración.
