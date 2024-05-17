@@ -11,10 +11,9 @@ function HistorialClinicoForm() {
   const [ocupacionSeleccionada, setOcupacionSeleccionada] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [ciudad, setCiudad] = useState('');
-  const [escolaridad, setEscolaridad] = useState('');
+  const [padecimientoActual, setPadecimientoActual] = useState('');
   const [motivoConsulta, setMotivoConsulta] = useState('');
   const [enfermedadesSeleccionadas, setEnfermedadesSeleccionadas] = useState([]);
-  const [enfermedadesz, setEnfermedades] = useState([]);
  
  
   const [coloracionEncias, setColoracionEncias] = useState('');
@@ -253,66 +252,68 @@ const generarPDF = () => {
   // Define la posición inicial para escribir en el PDF
   let posY = 10;
 
-  // Agrega el título del historial clínico
+  // Agrega la información personal
   pdf.setFontSize(16);
-  pdf.text('Historial Clínico', 10, posY);
-  posY += 10; // Incrementa la posición Y
+  pdf.setFont('helvetica', 'bold');
+  pdf.text('Información Personal:', 10, posY);
+  pdf.setFont('helvetica', 'normal');
+  posY += 10;
+  pdf.text(`Nombre: ${nombre}`, 15, posY);
+  posY += 10;
+  pdf.text(`Sexo: ${sexo}`, 15, posY);
+  posY += 10;
+  pdf.text(`Domicilio: ${domicilio}`, 15, posY);
+  posY += 10;
+  pdf.text(`Teléfono: ${telefono}`, 15, posY);
+  posY += 10;
+  pdf.text(`Fecha de Nacimiento: ${fechaNacimiento}`, 15, posY);
+  posY += 10;
+  pdf.text(`Ciudad: ${ciudad}`, 15, posY);
+  posY += 20; // Incrementa la posición Y
 
-  // Agrega los datos personales
-  pdf.setFontSize(12);
-  pdf.text(`Nombre: ${nombre}`, 10, posY);
+  // Agrega el padecimiento actual
+  pdf.setFont('helvetica', 'bold');
+  pdf.text('Padecimiento Actual:', 10, posY);
+  pdf.setFont('helvetica', 'normal');
   posY += 10;
-  pdf.text(`Sexo: ${sexo}`, 10, posY);
-  posY += 10;
-  pdf.text(`Domicilio: ${domicilio}`, 10, posY);
-  posY += 10;
-  pdf.text(`Teléfono: ${telefono}`, 10, posY);
-  posY += 10;
-  pdf.text(`Ocupación: ${ocupacionSeleccionada}`, 10, posY);
-  posY += 10;
-  pdf.text(`Fecha de Nacimiento: ${fechaNacimiento}`, 10, posY);
-  posY += 10;
-  pdf.text(`Ciudad: ${ciudad}`, 10, posY);
-  posY += 10;
-  pdf.text(`Escolaridad: ${escolaridad}`, 10, posY);
-  posY += 10;
-
-  // Agrega el motivo de consulta
-  pdf.text('Motivo de consulta:', 10, posY);
-  posY += 10;
-  pdf.text(`${motivoConsulta}`, 10, posY);
+  pdf.text(`${padecimientoActual}`, 15, posY);
   posY += 20; // Incrementa la posición Y
 
   // Agrega las enfermedades seleccionadas
+  pdf.setFont('helvetica', 'bold');
   pdf.text('Enfermedades:', 10, posY);
+  pdf.setFont('helvetica', 'normal');
   posY += 10;
   enfermedadesSeleccionadas.forEach((enfermedad, index) => {
-    pdf.text(`${index + 1}. ${enfermedad}`, 10, posY);
+    pdf.text(`${index + 1}. ${enfermedad}`, 15, posY);
     posY += 10;
   });
-  posY += 10; // Incrementa la posición Y
+  posY += 20; // Incrementa la posición Y
 
   // Agrega la información bucal
+  pdf.setFont('helvetica', 'bold');
   pdf.text('Información Bucal:', 10, posY);
+  pdf.setFont('helvetica', 'normal');
   posY += 10;
-  pdf.text(`Coloración de Encías: ${coloracionEncias}`, 10, posY);
+  pdf.text(`Coloración de Encías: ${coloracionEncias}`, 15, posY);
   posY += 10;
-  pdf.text(`Coloración de Lengua: ${coloracionLenguaSelected}`, 10, posY);
+  pdf.text(`Coloración de Lengua: ${coloracionLenguaSelected}`, 15, posY);
   posY += 10;
-  pdf.text(`Ulceraciones en Lengua: ${ulceracionesLengua}`, 10, posY);
+  pdf.text(`Ulceraciones en Lengua: ${ulceracionesLengua}`, 15, posY);
   posY += 10;
-  pdf.text(`Observaciones sobre Lengua: ${observacionesLengua}`, 10, posY);
+  pdf.text(`Observaciones sobre Lengua: ${observacionesLengua}`, 15, posY);
   posY += 10;
-  pdf.text(`Coloración de Paladar Duro: ${coloracionPaladar}`, 10, posY);
+  pdf.text(`Coloración de Paladar Duro: ${coloracionPaladar}`, 15, posY);
   posY += 10;
-  pdf.text(`Lesiones o Anomalías en Paladar Duro: ${ulceracionesPaladar}`, 10, posY);
+  pdf.text(`Lesiones o Anomalías en Paladar Duro: ${ulceracionesPaladar}`, 15, posY);
   posY += 10;
-  pdf.text(`Observaciones sobre Paladar Duro: ${observacionesPaladar}`, 10, posY);
+  pdf.text(`Observaciones sobre Paladar Duro: ${observacionesPaladar}`, 15, posY);
   posY += 10;
 
   // Guarda el PDF
   pdf.save('historial_clinico.pdf');
 };
+
 
 
   return (
@@ -331,6 +332,15 @@ const generarPDF = () => {
             <input type="text" id="nombre" value={nombre} onChange={(e) => setNombre(e.target.value)}className="border border-gray-300 rounded-md p-2 w-full" 
             placeholder="Ingrese el Nombre completo"/>
             
+          </div>
+
+          <div className="form-control ">
+            <label htmlFor="sexo" className="text-gray-700 border-black">Género:</label><br />
+            <select id="sexo" value={sexo} onChange={(e) => setSexo(e.target.value)} className="border border-gray-300 rounded-md p-2 w-full">
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+              <option value="otro">Otro</option>
+            </select><br /><br />
           </div>
   
           <div className="form-control ">
@@ -367,7 +377,19 @@ const generarPDF = () => {
     
               </div>
         <fieldset>
-          <legend className="text-lg font-semibold text-gray-700 border-black">Padecimiento Actual</legend>
+        <div className="form-control">
+  <label htmlFor="padecimientoActual" className="text-gray-700 border-black">Padecimiento Actual:</label><br />
+  <textarea
+    id="padecimientoActual"
+    value={padecimientoActual}
+    onChange={(e) => setPadecimientoActual(e.target.value)}
+    rows={4}
+    className="border border-gray-300 rounded-md p-2 w-full"
+    style={{ maxWidth: '650px', maxHeight: '200px', resize: 'none'}}
+    placeholder="Ingrese el padecimiento actual aquí..."
+  />
+</div>
+
           <div className="form-control">
             <label htmlFor="motivoConsulta" className="text-gray-700 border-black">Motivo de consulta:</label><br />
             <textarea
